@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
@@ -28,14 +29,16 @@ class _HomeState extends State<Home> {
 
       todoControler.clear();
       Navigator.pop(context);
-    }else{
+    } else {
       Fluttertoast.showToast(msg: 'Write Something ....');
     }
 
-    print(box.keys.last);
-    print(box.keys.first);
-    print(box.keys.length);
-    print(box.keys);
+    if (kDebugMode) {
+      print(box.keys.last);
+      print(box.keys.first);
+      print(box.keys.length);
+      print(box.keys);
+    }
   }
 
   void editTodo(int index) {
@@ -49,7 +52,7 @@ class _HomeState extends State<Home> {
             autofocus: true,
             enableSuggestions: true,
             decoration: InputDecoration(
-              hintText: box.getAt(index),
+                hintText: box.getAt(index),
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.green),
                   borderRadius: BorderRadius.circular(10),
@@ -57,26 +60,25 @@ class _HomeState extends State<Home> {
           ),
           actions: [
             TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
             ),
             TextButton(
-                onPressed: () {
-                  if(updateController.text != ''){
-                    setState(() {
-                      box.putAt(index, updateController.text);
-                    });
-                    updateController.clear();
-                    Navigator.pop(context);
-                  }else{
-                    Navigator.pop(context);
-                    Fluttertoast.showToast(msg: 'Write Something to Update');
-                  }
-
-                },
-                child: Text('Update'),
+              onPressed: () {
+                if (updateController.text != '') {
+                  setState(() {
+                    box.putAt(index, updateController.text);
+                  });
+                  updateController.clear();
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(msg: 'Write Something to Update');
+                }
+              },
+              child: Text('Update'),
             ),
           ],
         );
@@ -115,8 +117,8 @@ class _HomeState extends State<Home> {
                         color: Colors.white,
                       ),
                     ),
-                    tileColor: Colors
-                        .primaries[Random().nextInt(Colors.primaries.length)],
+                    tileColor:
+                        Colors.primaries[index % Colors.primaries.length],
                     title: Text(box.getAt(index)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -155,11 +157,11 @@ class _HomeState extends State<Home> {
                         enableSuggestions: true,
                         controller: todoControler,
                         decoration: InputDecoration(
-                          labelText: 'Write Something',
+                            labelText: 'Write Something',
                             border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10),
-                        )),
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            )),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
